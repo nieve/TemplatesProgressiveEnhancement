@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace TemplatesProgressiveEnhancement.Domain
@@ -8,15 +7,13 @@ namespace TemplatesProgressiveEnhancement.Domain
     {
         private string _text;
         private List<string> _propertyNames;
-
-        internal Template(string templatePath)
-        {
-            _text = File.ReadAllText(templatePath);
-            var fileInfo = new FileInfo(templatePath);
-            Name = fileInfo.Name.Replace(fileInfo.Extension, "");
-        }
-
         internal string Name { get; private set; }
+
+        internal Template(IContainTemplateData templateData)
+        {
+            _text = templateData.Text;
+            Name = templateData.Name;
+        }
 
         internal void PrepareDynamicRendering()
         {

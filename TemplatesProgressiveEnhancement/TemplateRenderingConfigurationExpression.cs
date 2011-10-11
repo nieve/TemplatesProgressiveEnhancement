@@ -1,14 +1,12 @@
-﻿using System.Web;
-
-namespace TemplatesProgressiveEnhancement
+﻿namespace TemplatesProgressiveEnhancement
 {
     public class TemplateRenderingConfigurationExpression
     {
         private readonly TemplatesExtractor _templatesExtractor;
 
-        internal TemplateRenderingConfigurationExpression(HttpApplication app)
+        internal TemplateRenderingConfigurationExpression()
         {
-            _templatesExtractor = new TemplatesExtractor(app);
+            _templatesExtractor = new TemplatesExtractor();
         }
 
         public void WithPath(string path)

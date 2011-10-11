@@ -1,14 +1,23 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 
 namespace TemplatesProgressiveEnhancement.Domain
 {
     internal class TemplatesLocation
     {
         private readonly string _path;
+        private readonly ITemplatesFactory _factory;
 
         public TemplatesLocation(string path)
         {
+            _factory = new TemplatesFactory();
+            _path = path;
+            Templates = new List<Template>();
+            LoadTemplates();
+        }
+        
+        public TemplatesLocation(string path, ITemplatesFactory factory)
+        {
+            _factory = factory;
             _path = path;
             Templates = new List<Template>();
             LoadTemplates();
@@ -16,9 +25,10 @@ namespace TemplatesProgressiveEnhancement.Domain
 
         private void LoadTemplates()
         {
-            foreach (var templatePath in Directory.GetFiles(_path))
+            foreach (var templatePath in _factory.GetTemplatesPaths(_path))
             {
-                var template = new Template(templatePath);
+                var templateData = _factory.GetTemplateData(templatePath);
+                var template = _factory.CreateTemplate(templateData);
                 Templates.Add(template);
             }
         }

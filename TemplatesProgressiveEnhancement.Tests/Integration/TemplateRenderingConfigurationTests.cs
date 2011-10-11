@@ -1,9 +1,8 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
-using TemplatesProgressiveEnhancement;
 
-namespace FakeMvcApplication
+namespace TemplatesProgressiveEnhancement.Tests.Integration
 {
     [TestFixture]
     public class TemplateRenderingConfigurationTests
@@ -27,12 +26,28 @@ namespace FakeMvcApplication
             Assert.That(renderedText.Content.Contains("calculon"));
             Assert.That(renderedText.Content.Contains("43"));
         }
+
+        [Test]
+        public void Rendering_removes_wrapping_jquery_tmpl_script_tag()
+        {
+            var controller = new FakeController();
+            var model = new FakeViewModel1 { Key = "A l'aise blaise", Value = "Cool Raul" };
+            var renderedText = controller.Template("Template1", model).Content;
+            
+            Assert.AreEqual("<span>A l'aise blaise</span>\r\n<span>Cool Raul</span>", renderedText);
+        }
     }
 
     public class FakeViewModel
     {
         public string Key { get; set; }
         public int Value { get; set; }
+    }
+
+    public class FakeViewModel1
+    {
+        public string Key { get; set; }
+        public string Value { get; set; }
     }
 
     public class FakeController : Controller{}

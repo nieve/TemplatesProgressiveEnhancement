@@ -43,7 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerExtensions.cs" />
+    <Compile Include="Domain\IContainTemplateData.cs" />
+    <Compile Include="Domain\ITemplatesFactory.cs" />
     <Compile Include="Domain\Template.cs" />
+    <Compile Include="Domain\TemplateDataContainer.cs" />
+    <Compile Include="Domain\TemplatesFactory.cs" />
     <Compile Include="Domain\TemplatesLocation.cs" />
     <Compile Include="Domain\TemplateViewModel.cs" />
     <Compile Include="HttpApplicationExtensions.cs" />

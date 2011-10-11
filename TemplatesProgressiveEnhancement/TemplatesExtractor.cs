@@ -1,15 +1,11 @@
-﻿using System.Web;
-using TemplatesProgressiveEnhancement.Domain;
+﻿using TemplatesProgressiveEnhancement.Domain;
 
 namespace TemplatesProgressiveEnhancement
 {
     public class TemplatesExtractor
     {
-        private readonly HttpApplication _app;
-
-        internal TemplatesExtractor(HttpApplication app)
+        internal TemplatesExtractor()
         {
-            _app = app;
         }
 
         internal void ExtractFrom(string path)

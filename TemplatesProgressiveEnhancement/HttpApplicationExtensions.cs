@@ -13,7 +13,7 @@ namespace TemplatesProgressiveEnhancement
     {
         public static TemplateRenderingConfigurationExpression ConfigureTemplateRendering(this HttpApplication app)
         {
-            return new TemplateRenderingConfigurationExpression(app);
+            return new TemplateRenderingConfigurationExpression();
         }
     }
 }
