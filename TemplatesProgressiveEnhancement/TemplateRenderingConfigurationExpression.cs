@@ -16,8 +16,7 @@
 
         public void WithDefaults()
         {
-            const string defaultPath = "../Views/Templates";
-            _templatesExtractor.ExtractFrom(defaultPath);
+            WithPath("../Views/Templates");
         }
     }
 }

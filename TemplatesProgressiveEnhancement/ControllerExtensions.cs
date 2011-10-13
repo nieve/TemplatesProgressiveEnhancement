@@ -9,20 +9,28 @@ namespace TemplatesProgressiveEnhancement
     public static class ControllerExtensions
     {
         public static ContentResult Template<T>(this Controller controller, 
-                                                string templateName, params T[] viewModels)
+            string templateName, params T[] viewModels)
         {
             var result = new ContentResult();
-            var template = TemplatesCache.Templates.Single(t=>t.Name == templateName);
-            var renderedTemplates = viewModels.Select(template.Render);
-            var content = string.Concat(renderedTemplates);
+            var renderedTemplates = viewModels.Select(model => {
+                var template = TemplatesCache.GetTemplate(templateName);
+                return template.Render(model);
+            });
+            var htmlElements = renderedTemplates.Select(ExtractHtml);
+            var content = string.Concat(htmlElements);
             
+            result.Content = content;
+            return result;
+        }
+
+        private static string ExtractHtml(string content)
+        {
             Stream stream = new MemoryStream(content.Select(Convert.ToByte).ToArray());
             var html = new XPathDocument(stream);
             var navigator = html.CreateNavigator();
             navigator.MoveToChild(XPathNodeType.All);
             var innerHtml = new MvcHtmlString(navigator.InnerXml);
-            result.Content = innerHtml.ToHtmlString();
-            return result;
+            return innerHtml.ToHtmlString();
         }
     }
 }

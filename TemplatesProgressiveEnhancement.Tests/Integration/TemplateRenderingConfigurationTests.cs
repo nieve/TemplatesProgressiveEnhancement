@@ -8,6 +8,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
     public class TemplateRenderingConfigurationTests
     {
         readonly FakeHttpApplication _app = new FakeHttpApplication();
+        private readonly FakeController _controller = new FakeController();
 
         [SetUp]
         public void SetUp()
@@ -19,22 +20,32 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
         [Test]
         public void Rendering_replaces_values_with_the_templated_keys()
         {
-            var controller = new FakeController();
             var model = new FakeViewModel{Key="calculon", Value = 43};
-            var renderedText = controller.Template("Display", model);
+            var renderedText = _controller.Template("Display", model);
             
-            Assert.That(renderedText.Content.Contains("calculon"));
-            Assert.That(renderedText.Content.Contains("43"));
+            renderedText.Content.ShouldContain("calculon");
+            renderedText.Content.ShouldContain("43");
         }
 
         [Test]
         public void Rendering_removes_wrapping_jquery_tmpl_script_tag()
         {
-            var controller = new FakeController();
             var model = new FakeViewModel1 { Key = "A l'aise blaise", Value = "Cool Raul" };
-            var renderedText = controller.Template("Template1", model).Content;
+            var renderedText = _controller.Template("Template1", model).Content;
             
-            Assert.AreEqual("<span>A l'aise blaise</span>\r\n<span>Cool Raul</span>", renderedText);
+            renderedText.ShouldBe("<div>\r\n  <span value=\"A l'aise blaise\"></span>Cool Raul</div>");
+        }
+
+        [Test]
+        public void Rendering_a_list_of_models()
+        {
+            var model1 = new FakeViewModel1 {Key = "A", Value = "1"};
+            var model2 = new FakeViewModel1 {Key = "B", Value = "2"};
+            var model3 = new FakeViewModel1 {Key = "D", Value = "42"};
+            var models = new[] {model1, model2, model3};
+            var renderedText = _controller.Template("Template2", models).Content;
+
+            renderedText.ShouldBe("<div>A, 1</div><div>B, 2</div><div>D, 42</div>");
         }
     }
 

@@ -1,4 +1,4 @@
-﻿namespace TemplatesProgressiveEnhancement.Domain
+﻿namespace TemplatesProgressiveEnhancement.Domain.Services.Interfaces
 {
     internal interface IContainTemplateData
     {

@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using TemplatesProgressiveEnhancement.Domain.Services.Impl;
+using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement.Domain
 {
@@ -27,8 +29,7 @@ namespace TemplatesProgressiveEnhancement.Domain
         {
             foreach (var templatePath in _factory.GetTemplatesPaths(_path))
             {
-                var templateData = _factory.GetTemplateData(templatePath);
-                var template = _factory.CreateTemplate(templateData);
+                var template = _factory.CreateTemplate(templatePath);
                 Templates.Add(template);
             }
         }

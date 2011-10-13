@@ -1,8 +1,9 @@
 ﻿using System.Linq.Expressions;
+using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
-namespace TemplatesProgressiveEnhancement.Domain
+namespace TemplatesProgressiveEnhancement.Domain.Services.Impl
 {
-    internal class TemplateViewModel
+    internal class TemplateViewModel : ITemplateModel
     {
         private readonly object _innerObject;
 
@@ -11,7 +12,7 @@ namespace TemplatesProgressiveEnhancement.Domain
             _innerObject = innerObject;
         }
 
-        internal string GetProperty(string propertName)
+        public string GetProperty(string propertName)
         {
             var exp = Expression.Constant(_innerObject);
             var property = Expression.Property(exp, propertName);

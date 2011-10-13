@@ -1,24 +1,36 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TemplatesProgressiveEnhancement.Domain.Services.Impl;
+using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement.Domain
 {
-    internal class Template
+    public class Template
     {
-        private string _text;
+        public string Text { get; private set; }
         private List<string> _propertyNames;
         internal string Name { get; private set; }
+        private ITemplatesFactory _factory;
 
-        internal Template(IContainTemplateData templateData)
+        internal Template(string name, string text)
         {
-            _text = templateData.Text;
-            Name = templateData.Name;
+            Name = name;
+            Text = text;
+            _factory = new TemplatesFactory();
         }
 
-        internal void PrepareDynamicRendering()
+        public Template(string name, string text, ITemplatesFactory factory)
+        {
+            Name = name;
+            Text = text;
+            _factory = factory;
+        }
+
+        private void PrepareDynamicRendering()
         {
             _propertyNames = new List<string>();
-            var matches = Regex.Matches(_text, "\\${[a-zA-Z]*}");
+            var matches = Regex.Matches(Text, "\\${[a-zA-Z]*}");
             for (int i = 0; i < matches.Count; i++)
             {
                 var propertyName = matches[i].Value.Replace("${", "").Replace("}", "");
@@ -28,14 +40,15 @@ namespace TemplatesProgressiveEnhancement.Domain
 
         internal string Render<T>(T viewModel)
         {
-            var model = new TemplateViewModel(viewModel);
+            PrepareDynamicRendering();
+            var model = _factory.GetTemplateModel(viewModel);
             foreach (var propName in _propertyNames)
             {
                 var oldValue = "${" + propName + "}";
                 var property = model.GetProperty(propName);
-                _text = _text.Replace(oldValue, property);
+                Text = Text.Replace(oldValue, property);
             }
-            return _text;
+            return Text;
         }
     }
 }

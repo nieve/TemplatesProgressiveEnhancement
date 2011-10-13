@@ -11,10 +11,8 @@ namespace TemplatesProgressiveEnhancement
         internal void ExtractFrom(string path)
         {
             var location = new TemplatesLocation(path);
-            foreach (var template in location.Templates)
-                template.PrepareDynamicRendering();
 
-            TemplatesCache.Templates = location.Templates;
+            TemplatesCache.SetTemplates(location.Templates);
         }
     }
 }
