@@ -1,19 +1,23 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
+using Rhino.Mocks;
+using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement.Tests.Integration
 {
     [TestFixture]
     public class TemplateRenderingConfigurationTests
     {
-        readonly FakeHttpApplication _app = new FakeHttpApplication();
         private readonly FakeController _controller = new FakeController();
+        private IContainAppPath _appPathContainer;
 
         [SetUp]
         public void SetUp()
         {
-            var configExpression = _app.ConfigureTemplateRendering();
+            _appPathContainer = MockRepository.GenerateStub<IContainAppPath>();
+            _appPathContainer.Stub(c => c.GetAppPath()).Return("../");
+            var configExpression = new TemplateRenderingConfigurationExpression(_appPathContainer);
             configExpression.WithDefaults();
         }
 

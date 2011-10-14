@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TemplatesProgressiveEnhancement.Domain.Services.Impl;
 using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement.Domain
@@ -11,14 +9,7 @@ namespace TemplatesProgressiveEnhancement.Domain
         public string Text { get; private set; }
         private List<string> _propertyNames;
         internal string Name { get; private set; }
-        private ITemplatesFactory _factory;
-
-        internal Template(string name, string text)
-        {
-            Name = name;
-            Text = text;
-            _factory = new TemplatesFactory();
-        }
+        private readonly ITemplatesFactory _factory;
 
         public Template(string name, string text, ITemplatesFactory factory)
         {
@@ -41,14 +32,15 @@ namespace TemplatesProgressiveEnhancement.Domain
         internal string Render<T>(T viewModel)
         {
             PrepareDynamicRendering();
+            var text = Text;
             var model = _factory.GetTemplateModel(viewModel);
             foreach (var propName in _propertyNames)
             {
                 var oldValue = "${" + propName + "}";
                 var property = model.GetProperty(propName);
-                Text = Text.Replace(oldValue, property);
+                text = text.Replace(oldValue, property);
             }
-            return Text;
+            return text;
         }
     }
 }

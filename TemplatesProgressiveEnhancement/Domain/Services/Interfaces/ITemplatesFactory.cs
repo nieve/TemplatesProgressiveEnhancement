@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace TemplatesProgressiveEnhancement.Domain.Services.Interfaces
+﻿namespace TemplatesProgressiveEnhancement.Domain.Services.Interfaces
 {
     public interface ITemplatesFactory
     {
-        Template CreateTemplate(string templatePath);
-        IEnumerable<string> GetTemplatesPaths(string path);
+        Template CreateTemplate(string templateName);
         ITemplateModel GetTemplateModel(object innerModel);
     }
 }

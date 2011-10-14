@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+﻿using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement.Domain.Services.Impl
 {
     internal class TemplatesFactory : ITemplatesFactory
     {
-        public Template CreateTemplate(string templatePath)
+        public Template CreateTemplate(string templateName)
         {
-            var container = new TemplateDataContainer(templatePath);
+            var container = new TemplateDataContainer(TemplatesCache.TemplatesPath + templateName + ".ascx");
             return new Template(container.Name, container.Text, this);
-        }
-
-        public IEnumerable<string> GetTemplatesPaths(string path)
-        {
-            return Directory.GetFiles(path);
         }
 
         public ITemplateModel GetTemplateModel(object innerModel)

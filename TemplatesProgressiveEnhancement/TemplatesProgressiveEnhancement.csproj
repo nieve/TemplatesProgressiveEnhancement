@@ -50,18 +50,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControllerExtensions.cs" />
+    <Compile Include="Domain\Services\Impl\AppPathContainer.cs" />
     <Compile Include="Domain\Services\Impl\TemplateDataContainer.cs" />
     <Compile Include="Domain\Services\Impl\TemplatesFactory.cs" />
     <Compile Include="Domain\Services\Impl\TemplateViewModel.cs" />
+    <Compile Include="Domain\Services\Interfaces\IContainAppPath.cs" />
     <Compile Include="Domain\Services\Interfaces\IContainTemplateData.cs" />
     <Compile Include="Domain\Services\Interfaces\ITemplateModel.cs" />
     <Compile Include="Domain\Services\Interfaces\ITemplatesFactory.cs" />
     <Compile Include="Domain\Template.cs" />
-    <Compile Include="Domain\TemplatesLocation.cs" />
     <Compile Include="HttpApplicationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateRenderingConfigurationExpression.cs" />
-    <Compile Include="TemplatesExtractor.cs" />
+    <Compile Include="TemplatesCache.cs" />
     <Compile Include="UnitTests\TemplateTests.cs" />
   </ItemGroup>
   <ItemGroup />

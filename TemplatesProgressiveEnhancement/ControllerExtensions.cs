@@ -3,22 +3,23 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.XPath;
+using TemplatesProgressiveEnhancement.Domain.Services.Impl;
+using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement
 {
     public static class ControllerExtensions
     {
-        public static ContentResult Template<T>(this Controller controller, 
-            string templateName, params T[] viewModels)
+        private static readonly ITemplatesFactory Factory = new TemplatesFactory();
+
+        public static ContentResult Template<T>(this Controller controller, string templateName, params T[] models)
         {
             var result = new ContentResult();
-            var renderedTemplates = viewModels.Select(model => {
-                var template = TemplatesCache.GetTemplate(templateName);
-                return template.Render(model);
-            });
+            var template = Factory.CreateTemplate(templateName);
+            var renderedTemplates = models.Select(template.Render);
             var htmlElements = renderedTemplates.Select(ExtractHtml);
             var content = string.Concat(htmlElements);
-            
+
             result.Content = content;
             return result;
         }
