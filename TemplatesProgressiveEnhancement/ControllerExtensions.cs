@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -11,6 +12,11 @@ namespace TemplatesProgressiveEnhancement
     public static class ControllerExtensions
     {
         private static readonly ITemplatesFactory Factory = new TemplatesFactory();
+
+        public static ContentResult TemplateList<T>(this Controller controller, string templateName, IEnumerable<T> models)
+        {
+            return Template(controller, templateName, models.ToArray());
+        }
 
         public static ContentResult Template<T>(this Controller controller, string templateName, params T[] models)
         {

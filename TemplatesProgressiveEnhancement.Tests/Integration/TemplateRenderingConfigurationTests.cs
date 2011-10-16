@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
@@ -41,13 +42,25 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
         }
 
         [Test]
-        public void Rendering_a_list_of_models()
+        public void Rendering_an_array_of_models()
         {
             var model1 = new FakeViewModel1 {Key = "A", Value = "1"};
             var model2 = new FakeViewModel1 {Key = "B", Value = "2"};
             var model3 = new FakeViewModel1 {Key = "D", Value = "42"};
             var models = new[] {model1, model2, model3};
             var renderedText = _controller.Template("Template2", models).Content;
+
+            renderedText.ShouldBe("<div>A, 1</div><div>B, 2</div><div>D, 42</div>");
+        }
+
+        [Test]
+        public void Rendering_a_list_of_models()
+        {
+            var model1 = new FakeViewModel1 {Key = "A", Value = "1"};
+            var model2 = new FakeViewModel1 {Key = "B", Value = "2"};
+            var model3 = new FakeViewModel1 {Key = "D", Value = "42"};
+            var models = new List<FakeViewModel1> {model1, model2, model3};
+            var renderedText = _controller.TemplateList("Template2", models).Content;
 
             renderedText.ShouldBe("<div>A, 1</div><div>B, 2</div><div>D, 42</div>");
         }

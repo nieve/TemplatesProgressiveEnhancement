@@ -29,7 +29,7 @@ namespace TemplatesProgressiveEnhancement.Domain
             }
         }
 
-        internal string Render<T>(T viewModel)
+        public string Render<T>(T viewModel)
         {
             PrepareDynamicRendering();
             var text = Text;

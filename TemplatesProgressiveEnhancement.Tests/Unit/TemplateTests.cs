@@ -3,7 +3,7 @@ using Rhino.Mocks;
 using TemplatesProgressiveEnhancement.Domain;
 using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
-namespace TemplatesProgressiveEnhancement.UnitTests
+namespace TemplatesProgressiveEnhancement.Tests.Unit
 {
     [TestFixture]
     public class TemplateTests
