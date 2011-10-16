@@ -1,4 +1,4 @@
-# TemplatesProgressiveEnhancement
+* TemplatesProgressiveEnhancement
 
 JQuery templates rendering for progressive enhancement in ASP.NET MVC
 
@@ -9,30 +9,25 @@ namely accessibility - for your ASP.NET MVC 3 application.
 
 For more info see http://nieve.heroku.com/post/Progressive_enhancement_for_JQuery_templates_with_MVC
 
-## Using it
+** Using it
 To start rendering your jquery templates, reference the TemplatesProgressiveEnhancement dll 
 and in your global asax add:
 
-````
 this.ConfigureTemplateRendering().WithDefaults(); //uses Views/Templates
-````
 
 or:
 
-````
 this.ConfigureTemplateRendering().WithPath("your/own/templates/path");
-````
 
 Then in your controller you can call 
-````
+
 this.Template("SomeTemplate", viewModel);
-````
 
 Which can take either a view model or an array of them. 
 This will get you a ContentResult with the template html, replacing all keys with properties values.
 
 
-# Legal Mumbo Jumbo (MIT License)
+* Legal Mumbo Jumbo (MIT License)
 
 Copyright (c) 2011 Nieve Goor
 
