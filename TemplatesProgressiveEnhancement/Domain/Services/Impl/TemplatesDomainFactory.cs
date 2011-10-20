@@ -2,7 +2,7 @@
 
 namespace TemplatesProgressiveEnhancement.Domain.Services.Impl
 {
-    internal class TemplatesFactory : ITemplatesFactory
+    internal class TemplatesDomainFactory : ITemplatesDomainFactory
     {
         public Template CreateTemplate(string templateName)
         {

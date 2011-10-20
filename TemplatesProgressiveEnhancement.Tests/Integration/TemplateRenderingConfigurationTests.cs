@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using NUnit.Framework;
@@ -12,14 +13,26 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
     {
         private readonly FakeController _controller = new FakeController();
         private IContainAppPath _appPathContainer;
+        private TemplateRenderingConfigurationExpression _configExpression;
 
         [SetUp]
         public void SetUp()
         {
             _appPathContainer = MockRepository.GenerateStub<IContainAppPath>();
             _appPathContainer.Stub(c => c.GetAppPath()).Return("../");
-            var configExpression = new TemplateRenderingConfigurationExpression(_appPathContainer);
-            configExpression.WithDefaults();
+            _configExpression = new TemplateRenderingConfigurationExpression(_appPathContainer);
+            _configExpression.WithDefaults();
+        }
+
+        [Test]
+        public void Using_different_templates()
+        {
+            _configExpression.UseTemplateKey(new FakeTemplateKey());
+            var model = new FakeViewModel{Key="Bend me"};
+
+            var renderedText = _controller.Template("OtherTemplate", model);
+
+            renderedText.Content.ShouldBe("Bend me");
         }
 
         [Test]
@@ -64,6 +77,12 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
 
             renderedText.ShouldBe("<div>A, 1</div><div>B, 2</div><div>D, 42</div>");
         }
+    }
+
+    public class FakeTemplateKey : ITemplateKey
+    {
+        public string LeftSide { get { return "%["; } }
+        public string RightSide { get { return "]"; } }
     }
 
     public class FakeViewModel

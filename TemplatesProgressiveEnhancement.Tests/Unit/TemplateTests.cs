@@ -8,7 +8,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
     [TestFixture]
     public class TemplateTests
     {
-        private ITemplatesFactory _factory;
+        private ITemplatesDomainFactory _factory;
         private readonly string _name = "name";
         private readonly object _viewModel = new object();
         private ITemplateModel _templateModel;
@@ -16,7 +16,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
         [SetUp]
         public void SetUp()
         {
-            _factory = MockRepository.GenerateStub<ITemplatesFactory>();
+            _factory = MockRepository.GenerateStub<ITemplatesDomainFactory>();
             _templateModel = MockRepository.GenerateStub<ITemplateModel>();
             _factory.Stub(f => f.GetTemplateModel(_viewModel)).Return(_templateModel);
         }
@@ -30,6 +30,17 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             var renderedText = template.Render(_viewModel);
 
             Assert.AreEqual("some value SomeKey", renderedText);
+        }
+
+        [Test]
+        public void Rendering_capitalises_template_key()
+        {
+            var template = new Template(_name, "${minusculeName}", _factory);
+            _templateModel.Stub(m => m.GetProperty("MinusculeName")).Return("I got capitalised!");
+
+            var renderedText = template.Render(_viewModel);
+
+            Assert.AreEqual("I got capitalised!", renderedText);
         }
 
         [Test]
@@ -48,8 +59,8 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
         [Test]
         public void Rendering_replaces_several_occurances_of_the_same_template_key_with_the_same_model_value()
         {
-            var template = new Template(_name, "${repeat}, ${repeat}, ${repeat}, ${repeat} Claudius!", _factory);
-            _templateModel.Stub(m => m.GetProperty("repeat")).Return("I");
+            var template = new Template(_name, "${Repeat}, ${Repeat}, ${Repeat}, ${Repeat} Claudius!", _factory);
+            _templateModel.Stub(m => m.GetProperty("Repeat")).Return("I");
 
             var renderedText = template.Render(_viewModel);
 

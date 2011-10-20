@@ -1,4 +1,5 @@
-﻿using TemplatesProgressiveEnhancement.Domain.Services.Impl;
+﻿using TemplatesProgressiveEnhancement.Domain;
+using TemplatesProgressiveEnhancement.Domain.Services.Impl;
 using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement
@@ -17,16 +18,25 @@ namespace TemplatesProgressiveEnhancement
             _appPathContainer = new AppPathContainer();
         }
 
-        public void WithPath(string path)
+        public TemplateRenderingConfigurationExpression UseTemplateKey(ITemplateKey templateKey)
+        {
+            TemplatesCache.Resolver = new PropertyNameResolver(templateKey);
+            return this;
+        }
+
+        public TemplateRenderingConfigurationExpression WithPath(string path)
         {
             var appPath = _appPathContainer.GetAppPath();
             path = path.StartsWith("/") ? path.TrimStart('/') : path;
             TemplatesCache.SetTemplatePath(appPath + path);
+            return this;
         }
 
-        public void WithDefaults()
+        public TemplateRenderingConfigurationExpression WithDefaults()
         {
             WithPath("Views/Templates");
+            TemplatesCache.Resolver = new PropertyNameResolver();
+            return this;
         }
     }
 }

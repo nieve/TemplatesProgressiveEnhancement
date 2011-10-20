@@ -11,7 +11,7 @@ namespace TemplatesProgressiveEnhancement
 {
     public static class ControllerExtensions
     {
-        private static readonly ITemplatesFactory Factory = new TemplatesFactory();
+        private static readonly ITemplatesDomainFactory Factory = new TemplatesDomainFactory();
 
         public static ContentResult TemplateList<T>(this Controller controller, string templateName, IEnumerable<T> models)
         {

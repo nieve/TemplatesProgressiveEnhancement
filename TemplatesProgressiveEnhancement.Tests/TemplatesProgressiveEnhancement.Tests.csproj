@@ -65,6 +65,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Views\Templates\OtherTemplate.ascx">
+      <SubType>ASPXCodeBehind</SubType>
+    </Content>
     <Content Include="bin\Views\Templates\Template2.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
