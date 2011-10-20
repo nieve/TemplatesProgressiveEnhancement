@@ -1,4 +1,5 @@
-﻿using TemplatesProgressiveEnhancement.Domain.Services.Impl;
+﻿using TemplatesProgressiveEnhancement.Domain.Services;
+using TemplatesProgressiveEnhancement.Domain.Services.Impl;
 using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
 namespace TemplatesProgressiveEnhancement

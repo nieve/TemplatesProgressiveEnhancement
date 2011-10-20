@@ -46,10 +46,21 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
         }
 
         [Test]
+        public void Rendering_capitalises_template_key()
+        {
+            var template = new Template(_name, "${minusculeName}", _factory);
+            _templateModel.Stub(m => m.GetProperty("MinusculeName")).Return("I got capitalised!");
+
+            var renderedText = template.Render(_viewModel);
+
+            Assert.AreEqual("I got capitalised!", renderedText);
+        }
+
+        [Test]
         public void Rendering_replaces_several_occurances_of_the_same_template_key_with_the_same_model_value()
         {
-            var template = new Template(_name, "${repeat}, ${repeat}, ${repeat}, ${repeat} Claudius!", _factory);
-            _templateModel.Stub(m => m.GetProperty("repeat")).Return("I");
+            var template = new Template(_name, "${Repeat}, ${Repeat}, ${Repeat}, ${Repeat} Claudius!", _factory);
+            _templateModel.Stub(m => m.GetProperty("Repeat")).Return("I");
 
             var renderedText = template.Render(_viewModel);
 

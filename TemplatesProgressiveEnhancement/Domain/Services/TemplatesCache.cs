@@ -1,4 +1,4 @@
-﻿namespace TemplatesProgressiveEnhancement
+﻿namespace TemplatesProgressiveEnhancement.Domain.Services
 {
     internal static class TemplatesCache
     {

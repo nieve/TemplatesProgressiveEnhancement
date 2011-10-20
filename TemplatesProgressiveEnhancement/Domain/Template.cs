@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+using TemplatesProgressiveEnhancement.Domain;
 
 namespace TemplatesProgressiveEnhancement.Domain
 {
@@ -37,7 +38,7 @@ namespace TemplatesProgressiveEnhancement.Domain
             foreach (var propName in _propertyNames)
             {
                 var oldValue = "${" + propName + "}";
-                var property = model.GetProperty(propName);
+                var property = model.GetProperty(propName.Capitalise());
                 text = text.Replace(oldValue, property);
             }
             return text;
