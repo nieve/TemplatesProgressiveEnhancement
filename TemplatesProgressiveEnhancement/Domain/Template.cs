@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
-using TemplatesProgressiveEnhancement.Domain;
+using TemplatesProgressiveEnhancement.Domain.Services.Templating;
 
 namespace TemplatesProgressiveEnhancement.Domain
 {
@@ -19,7 +18,7 @@ namespace TemplatesProgressiveEnhancement.Domain
             _factory = factory;
         }
 
-        private void PrepareDynamicRendering()
+        public void PrepareDynamicRendering()
         {
             _propertyNames = new List<string>();
             var matches = Regex.Matches(Text, "\\${[a-zA-Z]*}");
@@ -32,7 +31,6 @@ namespace TemplatesProgressiveEnhancement.Domain
 
         public string Render<T>(T viewModel)
         {
-            PrepareDynamicRendering();
             var text = Text;
             var model = _factory.GetTemplateModel(viewModel);
             foreach (var propName in _propertyNames)

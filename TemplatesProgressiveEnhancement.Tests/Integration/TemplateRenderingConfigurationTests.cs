@@ -1,24 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Web;
-using System.Web.Mvc;
 using NUnit.Framework;
 using Rhino.Mocks;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+using TemplatesProgressiveEnhancement.Domain;
+using TemplatesProgressiveEnhancement.Domain.Services;
+using TemplatesProgressiveEnhancement.Domain.Services.Caching;
+using TemplatesProgressiveEnhancement.Domain.Services.Templating;
 
 namespace TemplatesProgressiveEnhancement.Tests.Integration
 {
     [TestFixture]
     public class TemplateRenderingConfigurationTests
     {
-        private readonly FakeController _controller = new FakeController();
+        private FakeController _controller;
         private IContainAppPath _appPathContainer;
 
         [SetUp]
         public void SetUp()
         {
             _appPathContainer = MockRepository.GenerateStub<IContainAppPath>();
-            _appPathContainer.Stub(c => c.GetAppPath()).Return("../");
-            var configExpression = new TemplateRenderingConfigurationExpression(_appPathContainer);
+            _appPathContainer.Stub(c => c.GetAppPath()).Return(Directory.GetCurrentDirectory() + "\\");
+
+            var appCache = new AppCache(new FakeTemplateCache(), new TemplatesFactory());
+            _controller = new FakeController(appCache);
+            var configExpression = new TemplateRenderingConfigurationExpression(_appPathContainer, appCache);
             configExpression.WithDefaults();
         }
 
@@ -66,6 +73,24 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
         }
     }
 
+    public class FakeTemplateCache : ICacheTemplates
+    {
+        readonly Dictionary<string, Template> _cache = new Dictionary<string, Template>();
+        public Template this[string name]
+        {
+            get { return _cache[name]; }
+        }
+        public void Insert(string name, Template template, string templateFile)
+        {
+            _cache.Add(name, template);
+        }
+
+        public bool Contains(string key)
+        {
+            return _cache.ContainsKey(key);
+        }
+    }
+
     public class FakeViewModel
     {
         public string Key { get; set; }
@@ -78,7 +103,10 @@ namespace TemplatesProgressiveEnhancement.Tests.Integration
         public string Value { get; set; }
     }
 
-    public class FakeController : Controller{}
+    public class FakeController : TemplateRenderingController
+    {
+        public FakeController(IAppCache cache) : base(cache){}
+    }
 
     public class FakeHttpApplication : HttpApplication{}
 }

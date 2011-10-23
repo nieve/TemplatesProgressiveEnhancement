@@ -1,28 +1,31 @@
 ﻿using TemplatesProgressiveEnhancement.Domain.Services;
-using TemplatesProgressiveEnhancement.Domain.Services.Impl;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+using TemplatesProgressiveEnhancement.Domain.Services.Caching;
 
 namespace TemplatesProgressiveEnhancement
 {
-    public class TemplateRenderingConfigurationExpression
+    public class TemplateRenderingConfigurationExpression : ITemplateRenderingConfigurationExpression
     {
         private readonly IContainAppPath _appPathContainer;
+        private readonly IAppCache _appCache;
 
-        public TemplateRenderingConfigurationExpression(IContainAppPath appPathContainer)
+        public TemplateRenderingConfigurationExpression(IContainAppPath appPathContainer, IAppCache appCache)
         {
             _appPathContainer = appPathContainer;
+            _appCache = appCache;
         }
 
-        internal TemplateRenderingConfigurationExpression()
+        public TemplateRenderingConfigurationExpression()
         {
             _appPathContainer = new AppPathContainer();
+            _appCache = new AppCache();
         }
 
         public void WithPath(string path)
         {
             var appPath = _appPathContainer.GetAppPath();
             path = path.StartsWith("/") ? path.TrimStart('/') : path;
-            TemplatesCache.SetTemplatePath(appPath + path);
+            _appCache.SetTemplatePath(appPath + path);
+            _appCache.CacheAllTemplates(appPath + path);
         }
 
         public void WithDefaults()

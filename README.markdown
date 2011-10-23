@@ -11,10 +11,16 @@ For more info see http://nieve.heroku.com/post/Progressive_enhancement_for_JQuer
 
 ## Using it
 To start rendering your jquery templates, reference the TemplatesProgressiveEnhancement dll 
-and in your global asax add:
+and in your global asax make your application inherit from JsDegradeableApplication like so:
 
 ````
-this.ConfigureTemplateRendering().WithDefaults(); //uses Views/Templates
+public class MvcApplication : JsDegradeableApplication
+````
+
+And then call:
+
+````
+ConfigureTemplateRendering().WithDefaults(); //uses Views/Templates
 ````
 
 or:
@@ -23,13 +29,20 @@ or:
 this.ConfigureTemplateRendering().WithPath("your/own/templates/path");
 ````
 
-Then in your controller you can call 
+Then your controller that needs to render a template as html will inherit 
+from TemplateRenderingController and the call:
 
 ````
-this.Template("SomeTemplate", viewModel);
+Template("SomeTemplate", viewModel);
 ````
 
-Which can take either a view model or an array of them. 
+or:
+
+````
+TemplateList("SomeTemplate", models);
+````
+
+The former can take either a view model or an array of them. The latter takes an IEnumerable of models.
 This will get you a ContentResult with the template html, replacing all keys with properties values.
 
 

@@ -1,7 +1,6 @@
 ﻿using System.IO;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
 
-namespace TemplatesProgressiveEnhancement.Domain.Services.Impl
+namespace TemplatesProgressiveEnhancement.Domain.Services.Templating
 {
     internal class TemplateDataContainer : IContainTemplateData
     {

@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using Rhino.Mocks;
 using TemplatesProgressiveEnhancement.Domain;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+using TemplatesProgressiveEnhancement.Domain.Services.Templating;
 
 namespace TemplatesProgressiveEnhancement.Tests.Unit
 {
@@ -27,6 +27,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             var template = new Template(_name, "${SomeKey} SomeKey", _factory);
             _templateModel.Stub(m => m.GetProperty("SomeKey")).Return("some value");
 
+            template.PrepareDynamicRendering();
             var renderedText = template.Render(_viewModel);
 
             Assert.AreEqual("some value SomeKey", renderedText);
@@ -40,6 +41,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             _templateModel.Stub(m => m.GetProperty("SecondKey")).Return("Two");
             _templateModel.Stub(m => m.GetProperty("ThirdKey")).Return("Three");
 
+            template.PrepareDynamicRendering();
             var renderedText = template.Render(_viewModel);
 
             Assert.AreEqual("count: One, Two, Three", renderedText);
@@ -51,6 +53,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             var template = new Template(_name, "${minusculeName}", _factory);
             _templateModel.Stub(m => m.GetProperty("MinusculeName")).Return("I got capitalised!");
 
+            template.PrepareDynamicRendering();
             var renderedText = template.Render(_viewModel);
 
             Assert.AreEqual("I got capitalised!", renderedText);
@@ -62,6 +65,7 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             var template = new Template(_name, "${Repeat}, ${Repeat}, ${Repeat}, ${Repeat} Claudius!", _factory);
             _templateModel.Stub(m => m.GetProperty("Repeat")).Return("I");
 
+            template.PrepareDynamicRendering();
             var renderedText = template.Render(_viewModel);
 
             Assert.AreEqual("I, I, I, I Claudius!", renderedText);
@@ -81,6 +85,11 @@ namespace TemplatesProgressiveEnhancement.Tests.Unit
             var template4 = new Template(_name, text4, _factory);
             _templateModel.Stub(m => m.GetProperty("TemplateKey")).Return("Different value")
                 .Repeat.Times(4);
+
+            template.PrepareDynamicRendering();
+            template2.PrepareDynamicRendering();
+            template3.PrepareDynamicRendering();
+            template4.PrepareDynamicRendering();
 
             var renderedText = template.Render(_viewModel);
             var renderedText2 = template2.Render(_viewModel);

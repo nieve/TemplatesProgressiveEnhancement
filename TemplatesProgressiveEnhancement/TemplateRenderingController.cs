@@ -4,24 +4,33 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.XPath;
-using TemplatesProgressiveEnhancement.Domain.Services.Impl;
-using TemplatesProgressiveEnhancement.Domain.Services.Interfaces;
+using TemplatesProgressiveEnhancement.Domain.Services.Caching;
 
 namespace TemplatesProgressiveEnhancement
 {
-    public static class ControllerExtensions
+    public class TemplateRenderingController: Controller
     {
-        private static readonly ITemplatesFactory Factory = new TemplatesFactory();
+        private readonly IAppCache _cache;
 
-        public static ContentResult TemplateList<T>(this Controller controller, string templateName, IEnumerable<T> models)
+        public TemplateRenderingController(IAppCache cache)
         {
-            return Template(controller, templateName, models.ToArray());
+            _cache = cache;
         }
 
-        public static ContentResult Template<T>(this Controller controller, string templateName, params T[] models)
+        public TemplateRenderingController()
+        {
+            _cache = new AppCache();
+        }
+
+        public ContentResult TemplateList<T>(string templateName, IEnumerable<T> models)
+        {
+            return Template(templateName, models.ToArray());
+        }
+
+        public ContentResult Template<T>(string templateName, params T[] models)
         {
             var result = new ContentResult();
-            var template = Factory.CreateTemplate(templateName);
+            var template = _cache.GetTemplate(templateName);
             var renderedTemplates = models.Select(template.Render);
             var htmlElements = renderedTemplates.Select(ExtractHtml);
             var content = string.Concat(htmlElements);

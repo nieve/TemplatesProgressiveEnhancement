@@ -1,10 +1,9 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using TemplatesProgressiveEnhancement;
 
 namespace TestMvcSite.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : TemplateRenderingController
     {
         public ActionResult Index()
         {
@@ -17,7 +16,7 @@ namespace TestMvcSite.Controllers
             var name2 = new FullName{FirstName="Chairman", LastName="Mao"};
             var name3 = new FullName{FirstName="Jean-Luc", LastName="Godard"};
             var names = new []{name1,name2,name3};
-            return this.Template("SomeList", names);
+            return Template("SomeList", names);
         }
     }
 

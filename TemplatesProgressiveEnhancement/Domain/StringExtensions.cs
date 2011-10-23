@@ -6,5 +6,10 @@ namespace TemplatesProgressiveEnhancement.Domain
         {
             return str.Insert(0, str.Substring(0, 1).ToUpper()).Remove(1, 1);
         }
+
+        internal static string ToFormat(this string str, params object[] args)
+        {
+            return string.Format(str, args);
+        }
     }
 }

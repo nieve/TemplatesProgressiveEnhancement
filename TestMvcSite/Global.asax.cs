@@ -4,7 +4,7 @@ using TemplatesProgressiveEnhancement;
 
 namespace TestMvcSite
 {
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : JsDegradeableApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -26,7 +26,7 @@ namespace TestMvcSite
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            this.ConfigureTemplateRendering().WithDefaults();
+            ConfigureTemplateRendering().WithDefaults();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);

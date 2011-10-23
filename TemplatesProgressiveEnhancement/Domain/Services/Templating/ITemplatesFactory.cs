@@ -1,4 +1,4 @@
-﻿namespace TemplatesProgressiveEnhancement.Domain.Services.Interfaces
+﻿namespace TemplatesProgressiveEnhancement.Domain.Services.Templating
 {
     public interface ITemplatesFactory
     {

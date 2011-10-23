@@ -42,19 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ControllerExtensions.cs" />
-    <Compile Include="Domain\Services\Impl\AppPathContainer.cs" />
-    <Compile Include="Domain\Services\Impl\TemplateDataContainer.cs" />
-    <Compile Include="Domain\Services\Impl\TemplatesFactory.cs" />
-    <Compile Include="Domain\Services\Impl\TemplateViewModel.cs" />
-    <Compile Include="Domain\Services\Interfaces\IContainAppPath.cs" />
-    <Compile Include="Domain\Services\Interfaces\IContainTemplateData.cs" />
-    <Compile Include="Domain\Services\Interfaces\ITemplateModel.cs" />
-    <Compile Include="Domain\Services\Interfaces\ITemplatesFactory.cs" />
-    <Compile Include="Domain\Services\TemplatesCache.cs" />
+    <Compile Include="TemplateRenderingController.cs" />
+    <Compile Include="Domain\Services\AppPathContainer.cs" />
+    <Compile Include="Domain\Services\Caching\AppCache.cs" />
+    <Compile Include="Domain\Services\Caching\DefaultTemplatesCache.cs" />
+    <Compile Include="Domain\Services\Caching\IAppCache.cs" />
+    <Compile Include="Domain\Services\Caching\ICacheTemplates.cs" />
+    <Compile Include="Domain\Services\IContainAppPath.cs" />
+    <Compile Include="Domain\Services\Templating\IContainTemplateData.cs" />
+    <Compile Include="Domain\Services\Templating\ITemplateModel.cs" />
+    <Compile Include="Domain\Services\Templating\ITemplatesFactory.cs" />
+    <Compile Include="Domain\Services\Templating\TemplateDataContainer.cs" />
+    <Compile Include="Domain\Services\Templating\TemplatesFactory.cs" />
+    <Compile Include="Domain\Services\Templating\TemplateViewModel.cs" />
     <Compile Include="Domain\StringExtensions.cs" />
     <Compile Include="Domain\Template.cs" />
-    <Compile Include="HttpApplicationExtensions.cs" />
+    <Compile Include="JsDegradeableApplication.cs" />
+    <Compile Include="ITemplateRenderingConfigurationExpression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TemplateRenderingConfigurationExpression.cs" />
   </ItemGroup>

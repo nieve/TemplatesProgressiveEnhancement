@@ -65,13 +65,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Views\Templates\Template2.ascx">
+    <Content Include="bin\Debug\Views\Templates\Template2.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="bin\Views\Templates\Template1.ascx">
+    <Content Include="bin\Debug\Views\Templates\Template1.ascx">
       <SubType>ASPXCodeBehind</SubType>
     </Content>
-    <Content Include="bin\Views\Templates\Display.ascx" />
+    <Content Include="bin\Debug\Views\Templates\Display.ascx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
